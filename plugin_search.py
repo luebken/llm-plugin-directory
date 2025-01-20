@@ -82,11 +82,9 @@ if __name__ == "__main__":
     for repo_info in sorted_repositories:
         # Clean up description - replace None with empty string and escape any pipes
         description = (repo_info['description'] or "").replace("|", "\\|")
-        
-        markdown_content += f"| {repo_info['full_name']} | {description} | {repo_info['updated_at']} | {repo_info['url']} |\n"
-    
+        markdown_content += f"| {repo_info['full_name']} | {description} | {repo_info['updated_at'].split('T')[0]} | {repo_info['url']} |\n"    
     # Write to file
-    with open('llm_plugins.md', 'w', encoding='utf-8') as f:
+    with open('readme.md', 'w', encoding='utf-8') as f:
         f.write(markdown_content)
     
-    print("Results have been written to llm_plugins.md")
+    print("Results have been written to readme.md")
