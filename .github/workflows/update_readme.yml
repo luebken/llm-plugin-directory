@@ -3,6 +3,7 @@ name: Update README Nightly
 on:
   schedule:
     - cron: '0 0 * * *'  # This will run at midnight UTC every day
+    workflow_dispatch:  # This enables manual triggering from the UI
 
 jobs:
   update-readme:
