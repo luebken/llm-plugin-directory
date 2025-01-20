@@ -1,5 +1,7 @@
 name: Update README Nightly
 
+permissions:
+     contents: write
 on:
   schedule:
     - cron: '0 0 * * *'  # This will run at midnight UTC every day
