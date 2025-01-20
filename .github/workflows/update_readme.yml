@@ -1,0 +1,30 @@
+```yaml
+name: Update README Nightly
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # This will run at midnight UTC every day
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Run plugin_search_py
+        run: python plugin_search_py
+
+      - name: Check if README.md has changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          git diff --exit-code README.md || (git add README.md && git commit -m "Update README.md" && git push)
+```
