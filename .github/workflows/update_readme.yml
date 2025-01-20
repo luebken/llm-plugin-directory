@@ -1,4 +1,3 @@
-```yaml
 name: Update README Nightly
 
 on:
@@ -27,4 +26,3 @@ jobs:
           git config --local user.name "GitHub Action"
 
           git diff --exit-code README.md || (git add README.md && git commit -m "Update README.md" && git push)
-```
