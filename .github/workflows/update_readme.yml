@@ -24,6 +24,8 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run plugin_search.py
+        env:
+          GITHUB_API_TOKEN: ${{ secrets.MY_GITHUB_API_TOKEN }}
         run: python plugin_search.py
 
       - name: Check if readme.md has changed
@@ -31,5 +33,3 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git diff --exit-code readme.md || (git add readme.md && git commit -m "Update readme.md" && git push)
-        env:
-          GITHUB_API_TOKEN: ${{ secrets.MY_GITHUB_API_TOKEN }}
