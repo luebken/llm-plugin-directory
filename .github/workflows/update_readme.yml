@@ -18,12 +18,15 @@ jobs:
         with:
           python-version: '3.8'
 
-      - name: Run plugin_search_py
-        run: python plugin_search_py
+      - name: Add packages
+        run: pip install -r requirements.txt
 
-      - name: Check if README.md has changed
+      - name: Run plugin_search.py
+        run: python plugin_search.py
+
+      - name: Check if readme.md has changed
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          git diff --exit-code README.md || (git add README.md && git commit -m "Update README.md" && git push)
+          git diff --exit-code readme.md || (git add readme.md && git commit -m "Update readme.md" && git push)
