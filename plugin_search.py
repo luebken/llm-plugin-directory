@@ -48,6 +48,7 @@ def fetch_github_code_search_results(query):
                     repo_details = fetch_repo_details(repo_info['full_name'], headers)
                     if repo_details:
                         repo_info['updated_at'] = repo_details['updated_at']
+                        repo_info['stars'] = repo_details['stargazers_count']
                         unique_repositories[full_name] = repo_info
 
             link_header = response.headers.get('Link')
@@ -68,21 +69,20 @@ def fetch_github_code_search_results(query):
     # Convert the dictionary values back to a list
     return list(unique_repositories.values())
 
-
-
 if __name__ == "__main__":
     query = '@llm.hookimpl'
     repositories = fetch_github_code_search_results(query)
 
     sorted_repositories = sorted(repositories, key=lambda x: x['updated_at'], reverse=True)
     
-    markdown_content = "| Repository | Description | Last Updated | URL |\n"
-    markdown_content += "|------------|-------------|--------------|-----|\n"
+    markdown_content = "| Repository | Description | Stars | Last Updated | URL |\n"
+    markdown_content += "|------------|-------------|-------|--------------|-----|\n"
     
     for repo_info in sorted_repositories:
         # Clean up description - replace None with empty string and escape any pipes
         description = (repo_info['description'] or "").replace("|", "\\|")
-        markdown_content += f"| {repo_info['full_name']} | {description} | {repo_info['updated_at'].split('T')[0]} | {repo_info['url']} |\n"    
+        markdown_content += f"| {repo_info['full_name']} | {description} | {repo_info['stars']} | {repo_info['updated_at'].split('T')[0]} | {repo_info['url']} |\n"    
+
     # Write to file
     with open('readme.md', 'w', encoding='utf-8') as f:
         f.write("# Unofficial LLM Plugin directory\n")
