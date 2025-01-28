@@ -75,13 +75,14 @@ if __name__ == "__main__":
 
     sorted_repositories = sorted(repositories, key=lambda x: x['updated_at'], reverse=True)
     
-    markdown_content = "| Repository | Description | Stars | Last Updated | URL |\n"
-    markdown_content += "|------------|-------------|-------|--------------|-----|\n"
+    markdown_content = "| Repository | Description | Stars | Last Updated |\n"
+    markdown_content += "|------------|-------------|-------|--------------|\n"
     
     for repo_info in sorted_repositories:
         # Clean up description - replace None with empty string and escape any pipes
         description = (repo_info['description'] or "").replace("|", "\\|")
-        markdown_content += f"| {repo_info['full_name']} | {description} | {repo_info['stars']} | {repo_info['updated_at'].split('T')[0]} | {repo_info['url']} |\n"    
+        repo_link = f"[{repo_info['full_name']}]({repo_info['url']})"
+        markdown_content += f"| {repo_link} | {description} | {repo_info['stars']} | {repo_info['updated_at'].split('T')[0]} |\n"    
 
     # Write to file
     with open('readme.md', 'w', encoding='utf-8') as f:
